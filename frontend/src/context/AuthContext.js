@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import api from '../utils/api';
 
 export const AuthContext = createContext();
@@ -14,9 +14,9 @@ export const AuthProvider = ({ children }) => {
         } else {
             setLoading(false);
         }
-    }, [token]);
+    }, [token, loadUser]);
 
-    const loadUser = async () => {
+    const loadUser = useCallback(async () => {
         try {
             const res = await api.get('/auth/me');
             setUser(res.data.data.user);
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, []);
 
     const login = async (email, password) => {
         const res = await api.post('/auth/login', { email, password });

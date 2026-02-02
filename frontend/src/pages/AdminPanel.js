@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import api from '../utils/api';
 import { toast } from 'react-toastify';
 import './AdminPanel.css';
@@ -6,7 +6,6 @@ import './AdminPanel.css';
 const AdminPanel = () => {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [editingUser, setEditingUser] = useState(null);
 
     useEffect(() => {
         fetchUsers();
@@ -28,7 +27,6 @@ const AdminPanel = () => {
             await api.put(`/users/${userId}`, updates);
             toast.success('User updated successfully!');
             fetchUsers();
-            setEditingUser(null);
         } catch (error) {
             console.error('Update user error:', error);
         }
@@ -160,7 +158,7 @@ const AdminPanel = () => {
                         <h3>🔐 API Documentation</h3>
                         <p>View and test all API endpoints with Swagger</p>
                         <a
-                            href="http://localhost:5000/api-docs"
+                            href={`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1'}/../../api-docs`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn btn-primary btn-sm"
@@ -173,7 +171,7 @@ const AdminPanel = () => {
                         <h3>📊 System Health</h3>
                         <p>Check the health and status of the backend server</p>
                         <a
-                            href="http://localhost:5000/health"
+                            href={`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1'}/../../health`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="btn btn-primary btn-sm"
