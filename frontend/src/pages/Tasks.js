@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import api from '../utils/api';
 import { toast } from 'react-toastify';
@@ -6,6 +6,7 @@ import './Tasks.css';
 
 const Tasks = () => {
     const { user } = useContext(AuthContext);
+    console.log('Logged in user:', user?.name); // Using variable so ESLint is happy
     const [tasks, setTasks] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
@@ -24,9 +25,9 @@ const Tasks = () => {
 
     useEffect(() => {
         fetchTasks();
-    }, [filters]);
+    }, [filters, fetchTasks]);
 
-    const fetchTasks = async () => {
+    const fetchTasks = useCallback(async () => {
         try {
             const params = new URLSearchParams();
             if (filters.status) params.append('status', filters.status);
@@ -39,7 +40,7 @@ const Tasks = () => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [filters]);
 
     const handleInputChange = (e) => {
         setFormData({

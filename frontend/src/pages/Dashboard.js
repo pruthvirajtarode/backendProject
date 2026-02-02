@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import api from '../utils/api';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -161,7 +161,12 @@ const Dashboard = () => {
                             </Link>
                         )}
 
-                        <a href="http://localhost:5000/api-docs" target="_blank" rel="noopener noreferrer" className="action-card card">
+                        <a
+                            href={`${process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1'}/../../api-docs`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="action-card card"
+                        >
                             <div className="action-icon">📚</div>
                             <h4>API Documentation</h4>
                             <p>View Swagger API docs</p>
